@@ -343,8 +343,153 @@ public class Grid {
         }
     }
 
-public static void main(String args[]) {
-  System.out.println("Main class function swag");
-}
-
+	public static void main(String args[]) {
+		double[] results = new double[6];
+		int smallTests = 80;
+		int bigTests = 160;
+		Grid grid;
+		
+		// run each test set up on 1000 random initial grid configurations
+		for(int i = 0; i < 1000; i++){
+			grid = new Grid(6, 6, 5);
+			results[0] += testEquallyRandom(grid, smallTests);
+			
+			grid = new Grid(6, 6, 5);
+			results[1] += testEquallyRandom(grid, bigTests);
+			
+			grid = new Grid(6, 6, 5);
+			results[2] += testNotEquallyRandom(grid, smallTests);
+			
+			grid = new Grid(6, 6, 5);
+			results[3] += testNotEquallyRandom(grid, bigTests);
+			
+			grid = new Grid(6, 6, 5);
+			results[4] += testIsValidTurn(grid, smallTests);
+			
+			grid = new Grid(6, 6, 5);
+			results[5] += testIsValidTurn(grid, bigTests);
+		}
+		
+		for(int i = 0; i < 6; i++){
+			results[i] /= 1000;
+		}
+		
+		String[] labels = new String[]{
+			"Test1(80): ", "Test1(160): ",
+			"Test2(80): ", "Test2(160): ",
+			"Test3(80): ", "Test3(160): "
+		};
+		for(int i = 0; i < 6; i++){
+			System.out.println(labels[i] + results[i]);
+		}
+	}
+	
+	/**
+	 * Equal chance of turning left, right, and going forward
+	 */
+	public static double testEquallyRandom(Grid grid, int limit){
+		for(int i = 0; i < limit; i++){
+			int move = equallyRandom();
+			switch(move){
+				case 0:
+					grid.left();
+					break;
+				case 1:
+					grid.right();
+					break;
+				case 2:
+					grid.forward();
+					break;
+				default:
+					System.out.println("Invalid move");
+					break;
+			}
+		}
+		return grid.calcFitness();
+	}
+	
+	/**
+	 * Tests going forward 60%, turning left 20%, turning right 20%
+	 */
+	public static double testNotEquallyRandom(Grid grid, int limit){
+		for(int i = 0; i < limit; i++){
+			int move = notEquallyRandom();
+			switch(move){
+				case 0:
+					grid.left();
+					break;
+				case 1:
+					grid.right();
+					break;
+				case 2:
+					grid.forward();
+					break;
+				default:
+					System.out.println("Invalid move");
+					break;
+			}
+		}
+		return grid.calcFitness();
+	}
+	
+	/**
+	 * Tests third experiment in experiment 10.1
+	 */
+	public static double testIsValidTurn(Grid grid, int limit){
+		int previous = -1;
+		for(int i = 0; i < limit; i++){
+			int move = isValidTurn(previous);
+			switch(move){
+				case 0:
+					grid.left();
+					break;
+				case 1:
+					grid.right();
+					break;
+				case 2:
+					grid.forward();
+					break;
+				default:
+					System.out.println("Invalid move");
+					break;
+			}
+			previous = move;
+		}
+		return grid.calcFitness();
+	}
+	
+	/**
+	 * Returns a random integer between 0 and 2 with equal probability
+	 */
+	public static int equallyRandom(){
+		Random random = new Random();
+		return random.nextInt(3);
+	}
+	
+	/**
+	 * 60% forward(2), 20% right(1), 20% left(0)
+	 */
+	public static int notEquallyRandom(){
+		double random = Math.random();
+		if(random <= 0.6){
+			return 2;
+		}else if(random <= 0.8){
+			return 1;
+		}else{
+			return 0;
+		}
+	}
+	
+	/**
+	 * A left turn(0) never follows a right turn(1)
+	 * A right turn(1) never follows a left turn(0)
+	 * Otherwise, equally likely
+	 */
+	public static int isValidTurn(int previous){
+		int nextMove = equallyRandom();
+		while((previous == 0 && nextMove == 1) || (previous == 1 && nextMove == 0)){
+			nextMove = equallyRandom();
+		}
+		return nextMove;
+	}
 }
