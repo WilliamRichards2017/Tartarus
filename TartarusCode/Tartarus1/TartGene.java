@@ -118,6 +118,10 @@ public class TartGene extends GPGene {
             if (arg1 == 0) return arg3;
             else return arg2;
 
+		case Grid.RND:
+			Random random = new Random();
+			return random.nextInt(3);
+			
         default:
             throw new RuntimeException("Undefined function type "+node.value());
         }

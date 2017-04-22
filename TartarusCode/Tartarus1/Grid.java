@@ -22,7 +22,7 @@ public class Grid {
     public final static int MAX = 15;
     public final static int MIN = 16;
     public final static int ITE = 17;
-
+	public final static int RND = 18;	// adding a new node
 
     // grid private vars
     private char[][] grid;
@@ -344,7 +344,7 @@ public class Grid {
     }
 
 	public static void main(String args[]) {
-		double[] results = new double[6];
+		double[] results = new double[8];
 		int smallTests = 80;
 		int bigTests = 160;
 		Grid grid;
@@ -368,20 +368,49 @@ public class Grid {
 			
 			grid = new Grid(6, 6, 5);
 			results[5] += testIsValidTurn(grid, bigTests);
+			
+			grid = new Grid(6, 6, 5);
+			results[6] += customMethod(grid, smallTests);
+			
+			grid = new Grid(6, 6, 5);
+			results[7] += customMethod(grid, bigTests);
 		}
 		
-		for(int i = 0; i < 6; i++){
+		for(int i = 0; i < 8; i++){
 			results[i] /= 1000;
 		}
 		
 		String[] labels = new String[]{
 			"Test1(80): ", "Test1(160): ",
 			"Test2(80): ", "Test2(160): ",
-			"Test3(80): ", "Test3(160): "
+			"Test3(80): ", "Test3(160): ",
+			"Custom(80): ", "Custom(160): "
 		};
-		for(int i = 0; i < 6; i++){
+		for(int i = 0; i < 8; i++){
 			System.out.println(labels[i] + results[i]);
 		}
+	}
+	
+	/**
+	 * Our customized method that only randomly
+	 * moves forward or turn left
+	 */
+	public static double customMethod(Grid grid, int limit){
+		for(int i = 0; i < limit; i++){
+			int move = customProbability();
+			switch(move){
+				case 0:
+					grid.forward();
+					break;
+				case 1:
+					grid.left();
+					break;
+				default:
+					System.out.println("Invalid move");
+					break;
+			}
+		}
+		return grid.calcFitness();
 	}
 	
 	/**
@@ -478,6 +507,17 @@ public class Grid {
 		}else{
 			return 0;
 		}
+	}
+	
+	/**
+	 * 76.5% forward(0), 23.5% left(1)
+	 */
+	public static int customProbability(){
+		double random = Math.random();
+		if(random <= 0.765){
+			return 0;
+		}
+		return 1;
 	}
 	
 	/**
