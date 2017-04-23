@@ -23,7 +23,8 @@ public class Grid {
     public final static int MIN = 16;
     public final static int ITE = 17;
 	public final static int RND = 18;	// adding a new node
-
+    public final static int UUM = 19;   // checking two squares ahead
+    
     // grid private vars
     private char[][] grid;
     private int xdim, ydim;
@@ -242,6 +243,30 @@ public class Grid {
         // if box to check is out of bounds, return 2 for wall
         if (checkX < 0 || checkY < 0 || checkX >= xdim || checkY >= ydim) return 2;
 
+        // otherwise 0 for empty and 1 for box
+        if (grid[checkX][checkY] == 'b') return 1;
+        else return 0;
+    }
+    
+    public int sensorTwoSquares(){
+        int checkX = -1, checkY = -1;
+        if(dirs[dozerFacing] == 'w'){
+            checkX = dozerX - 2;
+            checkY = dozerY;
+        }else if(dirs[dozerFacing] == 'e'){
+            checkX = dozerX + 2;
+            checkY = dozerY;
+        }else if(dirs[dozerFacing] == 'n'){
+            checkX = dozerX;
+            checkY = dozerY + 2;
+        }else if(dirs[dozerFacing] == 's'){
+            checkX = dozerX;
+            checkY = dozerY - 2;
+        }
+        
+        // if box to check is out of bounds, return 2 for wall
+        if (checkX < 0 || checkY < 0 || checkX >= xdim || checkY >= ydim) return 2;
+        
         // otherwise 0 for empty and 1 for box
         if (grid[checkX][checkY] == 'b') return 1;
         else return 0;

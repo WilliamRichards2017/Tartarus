@@ -121,7 +121,10 @@ public class TartGene extends GPGene {
 		case Grid.RND:
 			Random random = new Random();
 			return random.nextInt(3);
-			
+                
+        case Grid.UUM:
+            return cfg.dozerGrid.sensorTwoSquares();
+        
         default:
             throw new RuntimeException("Undefined function type "+node.value());
         }
