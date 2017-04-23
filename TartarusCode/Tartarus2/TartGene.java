@@ -89,7 +89,11 @@ public class TartGene extends GPGene {
 
             ( (TartGene)get(result) ).evaluate(cfg, gp, os, out);
          }
-
+        else if (val <=11) {
+            ( (TartGene)get(0) ).evaluate(cfg, gp, os, out);
+            ( (TartGene)get(1) ).evaluate(cfg, gp, os, out);
+        }
+        
 	return 0;
     }
 }

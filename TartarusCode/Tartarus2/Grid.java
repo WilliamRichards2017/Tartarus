@@ -30,7 +30,8 @@ public class Grid {
     public final static int LM = 7;  
     public final static int UL = 8;   
     public final static int ML = 9;   
-    public final static int LL = 10;  
+    public final static int LL = 10;
+    public final static int prog2= 11; // adding a new function node
     
     // grid private vars
     private char[][] grid;
