@@ -1,0 +1,55 @@
+PopulationSize            = 100
+NumberOfGenerations       = 100
+CrossoverProbability      = 50.0
+CreationProbability       = 0.0
+CreationType              = Grow
+MaximumDepthForCreation   = 8
+MaximumDepthForCrossover  = 16
+MaximumComplexity         = 100
+SelectionType             = Tournament
+TournamentSize            = 10
+DemeSize                  = 100
+DemeticMigProbability     = 100.0
+SwapMutationProbability   = 10.0
+ShrinkMutationProbability = 20.0
+TerminationFitness        = 0.0
+GoodRuns                  = 0
+DemeticGrouping           = false
+AddBestToNewPopulation    = true
+SteadyState               = false
+PrintDetails              = false
+PrintPopulation           = false
+PrintExpression           = false
+PrintTree                 = true
+TreeFontSize              = 12
+UseADFs                   = false
+TestDiversity             = false
+ComplexityAffectsFitness  = false
+CheckpointGens            = 10
+TestCheckpoint            = true
+WorldHorizontal           = 6
+WorldVertical             = 6
+NumTestGrids              = 20
+NumBlocks                 = 5
+NumSteps                  = 80
+NumCheckpointTestGrids    = 2
+
+RPB:  inc(1) dec(1) add(2) sub(2) max(2) min(2) ite(3) rnd ll lm lr ml mr ul um ur two one zero
+
+
+Run number 1 (good runs 0)
+Too complex 293
+
+ Gen|              Fitness           |   Complexity    |    Depth   
+    |      Best    Average      Worst|   B      A     W|  B    A   W
+   0|      8.65       9.09      10.00|  97   66.4   100|  8  8.0   8  
+   1|      8.20       8.68      10.00|  69   69.4    81|  9  8.3   8  
+   2|      7.80       8.45      10.00|  69   63.8    33|  9  8.5   8  
+   3|      7.25       8.32      10.00|  60   71.6     4|  8  8.9   3  
+   4|      7.25       8.13       9.80|  60   71.1    68|  8  9.0   9  
+   5|      7.10       8.06       9.90|  90   69.0    51| 13  9.4   8  
+   6|      7.05       7.82      10.00|  60   64.6     4|  8  9.2   3  
+   7|      7.05       7.81      10.00|  60   68.1    38|  8  9.8  10  
+   8|      6.75       7.76       9.80|  60   64.4    32|  8  9.5   7  
+   9|      6.75       7.91      10.00|  60   63.1    30|  8  9.6   7  
+  10|      6.75       7.90       9.70|  60   62.9    57|  8  9.6   8 c

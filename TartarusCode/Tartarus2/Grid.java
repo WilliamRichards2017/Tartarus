@@ -1,15 +1,15 @@
 // Tartarus Implementation
 // Copyright (c) 2013, Sherri Goings
 //
-// This program is free software; you can redistribute it and/or 
-// modify it under the terms of version 2 of the GNU General Public 
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of version 2 of the GNU General Public
 // License as published by the Free Software Foundation.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -21,18 +21,20 @@ public class Grid {
 
     //functions and terminals
     public final static int LFT = 0;
-    public final static int RGT = 1; 
-    public final static int FWD = 2; 
-    public final static int UR = 3;  
+    public final static int RGT = 1;
+    public final static int FWD = 2;
+    public final static int UR = 3;
     public final static int MR = 4;
-    public final static int LR = 5;  
-    public final static int UM = 6;  
-    public final static int LM = 7;  
-    public final static int UL = 8;   
-    public final static int ML = 9;   
+    public final static int LR = 5;
+    public final static int UM = 6;
+    public final static int LM = 7;
+    public final static int UL = 8;
+    public final static int ML = 9;
     public final static int LL = 10;
     public final static int prog2= 11; // adding a new function node
-    
+    public final static int prog3= 12; // adding a new function node
+
+
     // grid private vars
     private char[][] grid;
     private int xdim, ydim;
@@ -63,7 +65,7 @@ public class Grid {
 	// create rand generator (if seed is -1, use time instead)
 	if (seed == -1) rgen = new Random();
 	else rgen = new Random(seed);
-	
+
         steps = 0;
         initGrid();
     }
@@ -76,7 +78,7 @@ public class Grid {
         int remLocs = (xdim-2)*(ydim-2);
         int x=1, y=1;
         while (toPlace > 0) {
-	    
+
             // the probability that this square should get a block is
 	    // (blocks still to place) / (squares not yet considered)
 	    // Note that this probability will grow to 1 when there are only as
@@ -91,14 +93,14 @@ public class Grid {
 		}
             }
             remLocs--;
-	    
+
             // at end of each row, move to beginning of next row
             if (++x == xdim-1) {
                 x=1;
                 y++;
             }
         }
-	
+
         // place dozer in random start location
         x = rgen.nextInt(xdim-2) + 1;
         y = rgen.nextInt(ydim-2) + 1;
@@ -109,7 +111,7 @@ public class Grid {
             if (grid[x+1][y] != 'b') x++;
             else if (grid[x][y+1] != 'b') y++;
             else {
-                x++; 
+                x++;
                 y++;
             }
         }
@@ -133,7 +135,7 @@ public class Grid {
 	left(null);
     }
 
-    // turn dozer left 
+    // turn dozer left
     public void left(BufferedWriter out) {
         dozerFacing = (dozerFacing + 1) % 4;
         steps++;
@@ -145,7 +147,7 @@ public class Grid {
 	right(null);
     }
 
-    // turn dozer right 
+    // turn dozer right
     public void right(BufferedWriter out) {
         if (--dozerFacing < 0) dozerFacing = 3;
         steps++;
@@ -180,7 +182,7 @@ public class Grid {
             frontY++;
             forw2Y += 2;
         }
-	
+
         // if facing wall, do nothing
         if (frontX<0 || frontX >= xdim || frontY<0 || frontY>=ydim) {
             //record that step spent not moving
@@ -188,7 +190,7 @@ public class Grid {
             return;
         }
 
-        // if facing block 
+        // if facing block
         if (grid[frontX][frontY] == 'b') {
             // if has wall or another block behind it, do nothing
             if (forw2X<0 || forw2X>=xdim || forw2Y<0 || forw2Y>=ydim || grid[forw2X][forw2Y]=='b') {
@@ -196,7 +198,7 @@ public class Grid {
 		if (out != null) updateFile(out, dozerX, dozerY, dozerFacing);
                 return;
             }
-	    
+
             // if clear behind block, move block
 	    grid[forw2X][forw2Y] = 'b';
 
@@ -208,7 +210,7 @@ public class Grid {
 		    System.out.println("Error while writing to file in forward method");
 		}
 	    }
- 
+
         }
         // if here were either facing block with nothing behind it or empty space so will move dozer
 	// record move
@@ -219,7 +221,7 @@ public class Grid {
 		System.out.println("Error while writing to file in forward method");
 	    }
 	}
-	
+
 	// dozer moves
         grid[frontX][frontY] = 'D';
         grid[dozerX][dozerY] = ' ';
@@ -227,14 +229,14 @@ public class Grid {
         dozerY = frontY;
 
 	if (out!= null) updateFile(out, dozerX, dozerY, dozerFacing);
-	
+
 
     }
 
     // frontOffset is 1 for square in front of dozer, 0 for inline with dozer, and -1 for behind
     // sideOffset is 1 for left of dozer, 0 inline, -1 right
     // y goes from 0 at the top to max val at the bottom of grid/screen
-    // returns 0,1, or 2 for empty, box, wall respectively 
+    // returns 0,1, or 2 for empty, box, wall respectively
     public int sensor(int frontOffset, int sideOffset) {
         boolean randSensor = false;
         if (randSensor) {
@@ -262,7 +264,7 @@ public class Grid {
 
         // if box to check is out of bounds, return 2 for wall
         if (checkX < 0 || checkY < 0 || checkX >= xdim || checkY >= ydim) return 2;
-        
+
         // otherwise 0 for empty and 1 for box
         if (grid[checkX][checkY] == 'b') return 1;
         else return 0;
@@ -275,35 +277,35 @@ public class Grid {
         int maxFit = 0;
         if (numBoxes>=4) maxFit = numBoxes+4;
         else maxFit = numBoxes*2;
-        
+
         // increase fitness if find boxes in first or last col
         int i=0;
-        for (int j=0; j<ydim; j++) 
+        for (int j=0; j<ydim; j++)
             if (grid[i][j] == 'b') fit++;
         i=xdim-1;
-        for (int j=0; j<ydim; j++) 
+        for (int j=0; j<ydim; j++)
             if (grid[i][j] == 'b') fit++;
 
-        // increase fitness for boxes in first or last row, note that 
-        // boxes in the corner will have fitness increased twice which 
+        // increase fitness for boxes in first or last row, note that
+        // boxes in the corner will have fitness increased twice which
         // correctly gives them their bonus of 2 instead of 1.
         i=0;
-        for (int j=0; j<xdim; j++) 
+        for (int j=0; j<xdim; j++)
             if (grid[j][i] == 'b') fit++;
         i=ydim-1;
-        for (int j=0; j<xdim; j++) 
+        for (int j=0; j<xdim; j++)
             if (grid[j][i] == 'b') fit++;
-        
+
         return maxFit + 1 - fit;
     }
 
-    // print the current state of the grid, showing blocks and the dozer 
+    // print the current state of the grid, showing blocks and the dozer
     // pointing in the correct direction
     public void print() {
         print(System.out);
     }
 
-    // print the current state of the grid, showing blocks and the dozer 
+    // print the current state of the grid, showing blocks and the dozer
     // pointing in the correct direction
     public void print(PrintStream os) {
         for (int y=0; y<ydim; y++) {

@@ -1,15 +1,15 @@
 // Tartarus Implementation
 // Copyright (c) 2013, Sherri Goings
 //
-// This program is free software; you can redistribute it and/or 
-// modify it under the terms of version 2 of the GNU General Public 
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of version 2 of the GNU General Public
 // License as published by the Free Software Foundation.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -48,7 +48,7 @@ public class TartGene extends GPGene {
 
     //called by TartGP.evaluate() for main branch of each GP
     int evaluate(TartVariables cfg, TartGP gp, PrintStream os, BufferedWriter out) {
-	// 
+	//
 	if (cfg.dozerGrid.getSteps() >= cfg.NumSteps) return 1;
 
         int val = node.value();
@@ -67,9 +67,9 @@ public class TartGene extends GPGene {
         }
 
 	// sensor, evaluate left child if chosen square is empty,
-	// middle child if chosen square has a box, right child if chosen square is a wall 
+	// middle child if chosen square has a box, right child if chosen square is a wall
         else if (val <=10) {
-            int result = -1; 
+            int result = -1;
             if (val==Grid.UR)
                 result = cfg.dozerGrid.sensor(1, -1);
             else if (val==Grid.MR)
@@ -92,10 +92,15 @@ public class TartGene extends GPGene {
         else if (val <=11) {
             ( (TartGene)get(0) ).evaluate(cfg, gp, os, out);
             ( (TartGene)get(1) ).evaluate(cfg, gp, os, out);
-        }
-        
+          }
+
+      else if (val <=12) {
+                ( (TartGene)get(0) ).evaluate(cfg, gp, os, out);
+                ( (TartGene)get(1) ).evaluate(cfg, gp, os, out);
+                ( (TartGene)get(2) ).evaluate(cfg, gp, os, out);
+            }
+
+
 	return 0;
     }
 }
-
-

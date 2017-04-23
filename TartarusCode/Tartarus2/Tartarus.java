@@ -1,15 +1,15 @@
 // Tartarus Implementation
 // Copyright (c) 2013, Sherri Goings
 //
-// This program is free software; you can redistribute it and/or 
-// modify it under the terms of version 2 of the GNU General Public 
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of version 2 of the GNU General Public
 // License as published by the Free Software Foundation.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -27,11 +27,11 @@ class Tartarus extends GPRun {
         return new TartVariables();
     }
 
-    // must override GPRun.createNodeSet to return 
+    // must override GPRun.createNodeSet to return
     // initialized set of functions & terminals
     protected GPAdfNodeSet createNodeSet(GPVariables cfg) {
-        GPNodeSet ns0 = new GPNodeSet(12);
- 
+        GPNodeSet ns0 = new GPNodeSet(13);
+
         //MAIN TREE
         ns0.putNode(new GPNode(Grid.LFT, "left"));
         ns0.putNode(new GPNode(Grid.RGT, "right"));
@@ -45,16 +45,18 @@ class Tartarus extends GPRun {
         ns0.putNode(new GPNode(Grid.LM, "lm", 3));
         ns0.putNode(new GPNode(Grid.LL, "ll", 3));
         ns0.putNode(new GPNode(Grid.prog2, "prog2", 2));
-        
+        ns0.putNode(new GPNode(Grid.prog3, "prog3", 3));
+
+
 	// ADF - Do NOT change
 	GPAdfNodeSet adfNs = new GPAdfNodeSet(1);
 	adfNs.put(0, ns0);
         return adfNs;
     }
 
-    //must override GPRun.createPopulation to return 
+    //must override GPRun.createPopulation to return
     //  lawn-specific population
-    protected GPPopulation createPopulation(GPVariables cfg, 
+    protected GPPopulation createPopulation(GPVariables cfg,
         GPAdfNodeSet adfNs) {
         return new TartPopulation(cfg, adfNs);
     }
@@ -63,7 +65,7 @@ class Tartarus extends GPRun {
     Tartarus(String baseName) {
 	super(baseName, true);
     }
-    
+
 
     //main application function
     public static void main(String[] args) {
