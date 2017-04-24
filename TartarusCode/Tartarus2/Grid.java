@@ -33,6 +33,8 @@ public class Grid {
     public final static int LL = 10;
     public final static int prog2= 11; // adding a new function node
     public final static int prog3= 12; // adding a new function node
+    public final static int UUM = 13;
+
 
 
     // grid private vars
@@ -269,6 +271,31 @@ public class Grid {
         if (grid[checkX][checkY] == 'b') return 1;
         else return 0;
     }
+
+
+    public int sensorTwoSquares(){
+       int checkX = -1, checkY = -1;
+       if(dirs[dozerFacing] == 'w'){
+           checkX = dozerX - 2;
+           checkY = dozerY;
+       }else if(dirs[dozerFacing] == 'e'){
+           checkX = dozerX + 2;
+           checkY = dozerY;
+       }else if(dirs[dozerFacing] == 'n'){
+           checkX = dozerX;
+           checkY = dozerY + 2;
+       }else if(dirs[dozerFacing] == 's'){
+           checkX = dozerX;
+           checkY = dozerY - 2;
+       }
+
+       // if box to check is out of bounds, return 2 for wall
+       if (checkX < 0 || checkY < 0 || checkX >= xdim || checkY >= ydim) return 2;
+
+       // otherwise 0 for empty and 1 for box
+       if (grid[checkX][checkY] == 'b') return 1;
+       else return 0;
+   }
 
     // determine the fitness of the current state of the grid. fitness is (maxScore+1) - score
     // where score is the number of sides of blocks that are touching a wall
